@@ -3,11 +3,11 @@
 		<br>
 		<h3 style='color: white;'>Order complete!</h3>
 
-		<p>Congratulations! Your order for Sticks will be shipped out within 1-2 business days.  <a href=''>support@stickly.com</a>. We sent you a confirmation email for your records. Thanks so much!</p>
+		<p>Congratulations! Your order  will be shipped out within 1-2 business days.  <a href=''>support@rokem.com</a></p>
 
 		<div v-if='orderDetails'>
 			<dl>
-				<dt>Order Number</dt>
+				<dt>Order Number</dt> 
 				<dd>{{ orderDetails.id }}</dd>
 				<dt>Order Created</dt>
 				<dd>{{ orderDetails.created | moment }}</dd>
@@ -37,7 +37,7 @@ export default {
 	},
 	created(){
 		var charge_id = this.$route.params.id;
-		axios.get(`${window.endpoint}/charge/${charge_id}`)
+		axios.get(`https://taad.herokuapp.com/charge/${charge_id}`)
 			.then((res)=>{
 				this.orderDetails = res.data.charge;
 			});

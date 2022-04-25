@@ -1,32 +1,72 @@
 <template>
-    <div class="section">
-        <div class="container">
-            <div class="columns" style='min-height:800px;'>
-                <div class="column is-6">
-                    <div class="image is-2by2">
-                        <img src="https://cdn.scotch.io/2842/b7yhhuUPSGO1fEkMHD6P_sticks.jpeg">
-                    </div>
-                </div>
-                <div class="column is-5 is-offset-1">
-                    <div class="title is-2">Bundle of Sticks</div>
-                    <p class="title is-3 has-text-muted">$ 15</p>
-                    <hr>
-                    <br>
-                    <p>This bundle of sticks provides an earthy fragrance and aesthetic natural appeal. Your bundle of sticks will come with a personalized note. The perfect natural gift for any time of year!</p>
-                    <br>
-                    <br>
-                    <p class='level'>
-                        <router-link to="/order" class="button is-large is-primary level-item has-text-centered">Buy Now</router-link>
-                    </p>
-                    <br>
-                </div>
+  <div class>
+    <div class="columns">
+      <div class="column is-half is-offset-one-quarter">
+        <div class="card">
+          <div class="card-image">
+            <figure class="image is-2by2">
+              <img :src="product.photo" alt="Placeholder image">
+            </figure>
+          </div>
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left"></div>
+              <div class="media-content">
+                <p class="title is-4">{{ product.title }}</p>
+                <br>
+                <p class="subtitle is-6">$ {{ product.price }}</p>
+                <p></p>
+                <div class="content">{{product.description}}</div>
+              </div>
+              <div class>
+                <button class="button is-dark" @click="addProductToCart(product)">Add to cart</button>
+              </div>
             </div>
+            <div>
+              <p></p>
+              <br>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
-
 <script>
+import { mapActions } from "vuex";
+import axios from "axios";
 export default {
+  name: "Product",
+  components: {},
+  data() {
+    return {
+      product: []
+    };
+  },
+  mounted() {
+    axios
+      .get(`https://taad.herokuapp.com/api/products/${this.$route.params.id}`, {})
+      .then(response => {
+        console.log(response);
+        this.product = response.data.product;
+      })
+      .catch(error => {
+        error;
+      });
+  },
 
-}
+  methods: {
+    ...mapActions(["addProductToCart"]),
+    logout() {
+      localStorage.clear();
+      this.$router.push("/login");
+    }
+  }
+};
 </script>
+
+<style>
+.br {
+  border-radius: 7px;
+}
+</style>
